@@ -1,0 +1,8 @@
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+    border-color: orangered;
+    box-shadow: none;
+}
+
+nav div ul li a:hover { color: orangered !important; }
