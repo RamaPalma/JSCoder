@@ -1,5 +1,4 @@
-
-
+let instalaciones = []
 const nombre = document.querySelector("#form_nombre")
 const correo = document.querySelector("#form_correo")
 const localidad = document.querySelector("#form_select_localidad")
@@ -20,29 +19,32 @@ const enviado = ()=> {
 const form = document.querySelector("form")
 form = form.addEventListener("submit",correrPrograma)
 
-let costo = 0
 
 
 function correrPrograma(e){
     e.preventDefault()
-    enviado()
-    const option_instalacion = instalacion.options[instalacion.selectedIndex].value
-    const option_localidad = localidad.options[localidad.selectedIndex].value
-
-    localStorage.setItem("nombre",nombre.value)
-    localStorage.setItem("correo",correo.value)
-    localStorage.setItem("localidad",option_localidad)
-    localStorage.setItem("instalacion",option_instalacion)
-
-    
-
+    agregarInstalaciones()
 }
 
+function agregarInstalaciones() {
+    const option_instalacion = instalacion.options[instalacion.selectedIndex].value
+    const option_localidad = localidad.options[localidad.selectedIndex].value
+    let final = calcularCuotas().toFixed(2)
 
+    instalaciones.push({nombre: nombre.value, correo: correo.value, localidad: option_localidad, instalacion: option_instalacion, coste: final})
+    localStorage.setItem("instalaciones", JSON.stringify(instalaciones))
+    enviado()
+}
 
-
+function traerInstalaciones() {
+    if (localStorage.getItem("instalaciones")) {
+        instalaciones = JSON.parse(localStorage.getItem("instalaciones"))
+    }
+}
+traerInstalaciones()
 
 function calcularCuotas(){
+    let costo = 0
     const option_localidad = localidad.options[localidad.selectedIndex].value
     const option_instalacion = instalacion.options[instalacion.selectedIndex].value
     
@@ -79,7 +81,6 @@ function calcularCuotas(){
         costoFinal = costoFinal + cuotas
         
     }
-
 
     return costoFinal
 

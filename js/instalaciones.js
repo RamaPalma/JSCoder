@@ -1,10 +1,15 @@
-const inputNombre = localStorage.getItem("nombre")
-const inputCorreo = localStorage.getItem("correo")
-const inputLocalidad = localStorage.getItem("localidad")
-const inputInstalacion = localStorage.getItem("instalacion")
-
-
-document.querySelector("#nombre").innerHTML = "Nombre:  " + inputNombre
-document.querySelector("#correo").innerHTML = "Correo:  " + inputCorreo
-document.querySelector("#localidad").innerHTML = "Localidad:  " + inputLocalidad
-document.querySelector("#instalacion").innerHTML = "Instalacion:  " + inputInstalacion
+function traigoInstalaciones() {
+    let instalaciones = JSON.parse(localStorage.getItem("instalaciones"))
+    let tabla = document.querySelector("tbody")
+        instalaciones.forEach(a => {
+            let fila = `<tr>
+                            <td>${a.nombre}</td>
+                            <td>$ ${a.correo}</td>
+                            <td>$ ${a.localidad}</td>
+                            <td>$ ${a.instalacion}</td>
+                            <td>$ ${a.coste}</td>
+                        </tr>`
+                        tabla.innerHTML += fila
+        });
+}
+traigoInstalaciones()
