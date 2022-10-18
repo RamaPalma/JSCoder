@@ -3,8 +3,11 @@ const nombre = document.querySelector("#form_nombre")
 const correo = document.querySelector("#form_correo")
 const localidad = document.querySelector("#form_select_localidad")
 const instalacion = document.querySelector("#form_select_instalacion")
+const btn = document.querySelector('#button');
+const serviceID = 'default_service';
+const templateID = 'template_af1h1rp';
 const enviado = ()=> {
-    
+
     Swal.fire({
         icon: 'success',
         title: 'Formulario enviado',
@@ -20,11 +23,22 @@ const form = document.querySelector("form")
 form = form.addEventListener("submit",correrPrograma)
 
 
-
 function correrPrograma(e){
     e.preventDefault()
     agregarInstalaciones()
+    
+    btn.value = 'ENVIANDO';
+    emailjs.sendForm(serviceID, templateID, this)
+    .then(() => {
+        btn.value = 'ENVIAR FORMULARIO';
+    }, (err) => {
+        btn.value = 'ENVIAR FORMULARIO';
+        alert(JSON.stringify(err));
+    });
+
+    enviado()
 }
+
 
 function agregarInstalaciones() {
     const option_instalacion = instalacion.options[instalacion.selectedIndex].value
@@ -33,7 +47,7 @@ function agregarInstalaciones() {
 
     instalaciones.push({nombre: nombre.value, correo: correo.value, localidad: option_localidad, instalacion: option_instalacion, coste: final})
     localStorage.setItem("instalaciones", JSON.stringify(instalaciones))
-    enviado()
+
 }
 
 function traerInstalaciones() {
@@ -42,6 +56,7 @@ function traerInstalaciones() {
     }
 }
 traerInstalaciones()
+
 
 function calcularCuotas(){
     let costo = 0
