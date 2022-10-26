@@ -25,12 +25,14 @@ form = form.addEventListener("submit",correrPrograma)
 
 function correrPrograma(e){
     e.preventDefault()
+    traerInstalaciones()
     agregarInstalaciones()
-    
+
     btn.value = 'ENVIANDO';
     emailjs.sendForm(serviceID, templateID, this)
     .then(() => {
-        btn.value = 'ENVIAR FORMULARIO';
+    
+    btn.value = 'ENVIAR FORMULARIO';
     }, (err) => {
         btn.value = 'ENVIAR FORMULARIO';
         alert(JSON.stringify(err));
@@ -39,15 +41,16 @@ function correrPrograma(e){
     enviado()
 }
 
-
 function agregarInstalaciones() {
     const option_instalacion = instalacion.options[instalacion.selectedIndex].value
     const option_localidad = localidad.options[localidad.selectedIndex].value
     let final = calcularCuotas().toFixed(2)
 
-    instalaciones.push({nombre: nombre.value, correo: correo.value, localidad: option_localidad, instalacion: option_instalacion, coste: final})
-    localStorage.setItem("instalaciones", JSON.stringify(instalaciones))
+    var id = instalaciones.length
 
+    instalaciones.push({id : id, nombre: nombre.value, correo: correo.value, localidad: option_localidad, instalacion: option_instalacion, coste: final})
+    localStorage.setItem("instalaciones", JSON.stringify(instalaciones))
+    
 }
 
 function traerInstalaciones() {
@@ -55,7 +58,7 @@ function traerInstalaciones() {
         instalaciones = JSON.parse(localStorage.getItem("instalaciones"))
     }
 }
-traerInstalaciones()
+
 
 
 function calcularCuotas(){
